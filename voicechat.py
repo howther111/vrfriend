@@ -28,9 +28,23 @@ try:
     # 読み込んだURLを開く
     driver.get(url)
 
+    time.sleep(10)
+
+    iframe = driver.find_element(By.ID, 'inlineFrameExample')  # 対象のインラインフレームIDを取得
+    driver.switch_to.frame(iframe)
+
+    # 「会話を始める」というテキストがボタンの内部に含まれている要素を探す
+    button = driver.find_element(By.XPATH, "//button[contains(text(), '会話をはじめる')]")
+
+    # ボタンをクリック
+    button.click()
+
+    # クリック後少し待つ（ページ遷移を待つため）
+    time.sleep(3)
+
     while True:
         try:
-            # 条件を満たすbuttonタグを取得
+
             button = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.XPATH,
                                                 "//button[img[@src='/assets/images/mike.png'] and not(contains(@style, 'display:none'))]"))
