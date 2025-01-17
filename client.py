@@ -4,7 +4,7 @@ from pynput.mouse import Controller as MouseController, Button
 from pynput.keyboard import Controller as KeyboardController, Key
 
 # 設定ファイルからIPアドレスとPORTを取得
-CONFIG_FILE = "server_config.txt"
+CONFIG_FILE = "config/server_config.txt"
 
 def get_server_config():
     try:

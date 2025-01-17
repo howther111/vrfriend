@@ -3,8 +3,9 @@ import json
 from pynput import mouse, keyboard
 
 # 設定ファイルからIPアドレスとPORTを取得
-CONFIG_FILE = "server_config.txt"
-
+CONFIG_FILE = "config/server_config.txt"
+ON_OFF_FILE = "config/on_off_key.txt"
+on_off_key = "q"
 
 def get_server_config():
     try:
@@ -16,6 +17,9 @@ def get_server_config():
                 return ip, port
             else:
                 raise ValueError("IPアドレスまたはPORTがファイルに正しく記述されていません")
+        with open(ON_OFF_FILE, 'r') as file:
+            line = file.readline()
+            on_off_key = line
     except FileNotFoundError:
         raise FileNotFoundError(f"設定ファイル {CONFIG_FILE} が見つかりません")
     except Exception as e:
@@ -64,7 +68,7 @@ def start_server():
             send_data({"type": "mouse_scroll", "dx": dx, "dy": dy})
 
         def on_press(key):
-            if key == keyboard.KeyCode.from_char('q'):
+            if key == keyboard.KeyCode.from_char(on_off_key):
                 send_enabled[0] = not send_enabled[0]
                 status = "有効" if send_enabled[0] else "無効"
                 print(f"送信が{status}になりました")
